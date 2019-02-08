@@ -4,3 +4,6 @@ img.app-logo {
 form.form-inline {
   width: 30rem;
 }
+main {
+  min-height: 50vh;
+}
