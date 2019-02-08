@@ -11,7 +11,7 @@ const API = {
 
 async function getFoods(query) {
   const { data } = await axios.get(`${API.BASE_URL}/search?key=${API.KEY}&q=${query}`);
-  return data.recipes;
+  return data.recipes || [];
 }
 
 export default function App() {
@@ -20,7 +20,7 @@ export default function App() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect( () => {
-    setRecipes(getFoods(query));
+    (async function(){ setRecipes(await getFoods(query)); })();
   }, []);
 
   return (
@@ -30,9 +30,9 @@ export default function App() {
           <a className="navbar-brand text-light" href="#!">
             <img className="app-logo" src={logo} alt="Food2Fork" />
           </a>
-          <form className="form-inline" onSubmit={ e => {
+          <form className="form-inline" onSubmit={ async e => {
             e.preventDefault();
-            setRecipes(getFoods(query));
+            setRecipes(await getFoods(query));
           }}>
             <input className="form-control form-control-lg mr-sm-2 w-75"
               type="search"
