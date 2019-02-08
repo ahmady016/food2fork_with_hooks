@@ -11,16 +11,27 @@ const API = {
 
 async function getFoods(query) {
   const { data } = await axios.get(`${API.BASE_URL}/search?key=${API.KEY}&q=${query}`);
-  return data.recipes || [];
+  if (data.error)
+    return data.error;
+  if(!data.recipes || !data.recipes.length)
+    return 'No recipes found';
+  return data.recipes;
 }
 
 export default function App() {
 
+  const [error, setError] = useState('');
   const [query, setQuery] = useState('burger');
   const [recipes, setRecipes] = useState([]);
 
+  async function fetchRecipes() {
+    setError('');
+    const res = await getFoods(query);
+    (typeof res === 'string')? setError(res) : setRecipes(res);
+  }
+
   useEffect( () => {
-    (async function(){ setRecipes(await getFoods(query)); })();
+    fetchRecipes();
   }, []);
 
   return (
@@ -32,7 +43,7 @@ export default function App() {
           </a>
           <form className="form-inline" onSubmit={ async e => {
             e.preventDefault();
-            setRecipes(await getFoods(query));
+            fetchRecipes();
           }}>
             <input className="form-control form-control-lg mr-sm-2 w-75"
               type="search"
@@ -49,7 +60,8 @@ export default function App() {
       <div className="container">
         {( !recipes.length
           ? <main className="intro d-flex flex-column align-items-center justify-content-around">
-              <img className="app-logo" src={logo} alt="Food2Fork" />
+              {error && <div class="alert alert-danger" role="alert">{error}</div>}
+              <h2>Food2Fork</h2>
               <span>Food2Fork makes it easy to find great recipes.</span>
               <span>Search by name or ingredients.</span>
               <span>Join to save your favorites for later.</span>
