@@ -1,3 +1,8 @@
+/* materialize css v1.0.0  */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css';
+/* fontawesome icons v5.5.0 */
+@import 'https://use.fontawesome.com/releases/v5.5.0/css/all.css';
+/* custom styles */
 body {
   margin: 0;
   padding: 0;
@@ -9,6 +14,5 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
