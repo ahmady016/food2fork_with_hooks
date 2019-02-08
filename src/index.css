@@ -1,5 +1,7 @@
-/* materialize css v1.0.0  */
-@import 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css';
+/* materialize-css v1.0.0  */
+/* @import 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'; */
+/* Bootstrap v4.2.1 */
+@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';
 /* fontawesome icons v5.5.0 */
 @import 'https://use.fontawesome.com/releases/v5.5.0/css/all.css';
 /* custom styles */
