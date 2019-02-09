@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import axios from 'axios'
 import LS from './localStorage'
 
@@ -5,6 +6,20 @@ const API = {
   KEY: 'd3ab033003c2e546e131f5b45402e3e9',
   BASE_URL: 'http://food2fork.com/api',
   PAGE_COUNT: 10
+}
+
+export function useRecipes() {
+  const [error, setError] = useState('');
+  const [query, setQuery] = useState('burger');
+  const [recipes, setRecipes] = useState([]);
+  return {
+    error,
+    setError,
+    query,
+    setQuery,
+    recipes,
+    setRecipes
+  }
 }
 
 export async function request({ query = '', recipeId = '' }) {
