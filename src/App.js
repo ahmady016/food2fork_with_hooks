@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import LS from './localStorage'
 import logo from './food2fork-logo.png'
 import './app.css'
 
@@ -9,7 +10,7 @@ const API = {
   PAGE_COUNT: 10
 }
 
-async function getFoods(query) {
+async function request(query) {
   const { data } = await axios.get(`${API.BASE_URL}/search?key=${API.KEY}&q=${query}`);
   if (data.error)
     return data.error;
@@ -25,9 +26,20 @@ export default function App() {
   const [recipes, setRecipes] = useState([]);
 
   async function fetchRecipes() {
+    let res;
     setError('');
-    const res = await getFoods(query);
-    (typeof res === 'string')? setError(res) : setRecipes(res);
+    res = LS.get(query);
+    if(res) {
+      setRecipes(res);
+    } else {
+      res = await request(query);
+      if(typeof res === 'string')
+        setError(res)
+      else {
+        LS.set(query, JSON.stringify(res));
+        setRecipes(res);
+      }
+    }
   }
 
   useEffect( () => {
