@@ -1,23 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import LS from './localStorage'
+import { fetchData } from './helpers'
 import logo from './food2fork-logo.png'
 import './app.css'
-
-const API = {
-  KEY: 'd3ab033003c2e546e131f5b45402e3e9',
-  BASE_URL: 'http://food2fork.com/api',
-  PAGE_COUNT: 10
-}
-
-async function request(query) {
-  const { data } = await axios.get(`${API.BASE_URL}/search?key=${API.KEY}&q=${query}`);
-  if (data.error)
-    return data.error;
-  if(!data.recipes || !data.recipes.length)
-    return 'No recipes found';
-  return data.recipes;
-}
 
 export default function App() {
 
@@ -25,25 +9,8 @@ export default function App() {
   const [query, setQuery] = useState('burger');
   const [recipes, setRecipes] = useState([]);
 
-  async function fetchRecipes() {
-    let res;
-    setError('');
-    res = LS.get(query);
-    if(res) {
-      setRecipes(res);
-    } else {
-      res = await request(query);
-      if(typeof res === 'string')
-        setError(res)
-      else {
-        LS.set(query, JSON.stringify(res));
-        setRecipes(res);
-      }
-    }
-  }
-
   useEffect( () => {
-    fetchRecipes();
+    fetchData({ query, setRecipes, setError });
   }, []);
 
   return (
@@ -55,7 +22,7 @@ export default function App() {
           </a>
           <form className="form-inline" onSubmit={ async e => {
             e.preventDefault();
-            fetchRecipes();
+            fetchData({ query, setRecipes, setError });
           }}>
             <input className="form-control form-control-lg mr-sm-2 w-75"
               type="search"
