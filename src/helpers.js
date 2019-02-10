@@ -8,17 +8,20 @@ const API = {
   PAGE_COUNT: 10
 }
 
-export function useRecipes() {
+export function useRecipes(_query) {
   const [error, setError] = useState('');
-  const [query, setQuery] = useState('burger');
+  const [query, setQuery] = useState(_query);
   const [recipes, setRecipes] = useState([]);
+  const [recipe, setRecipe] = useState({});
   return {
     error,
     setError,
     query,
     setQuery,
     recipes,
-    setRecipes
+    setRecipes,
+    recipe,
+    setRecipe
   }
 }
 
@@ -33,6 +36,9 @@ export async function request({ query = '', recipeId = '' }) {
     return data.error;
   if( (!data.recipes || !data.recipes.length) && !data.recipe)
     return 'Resource Not found!';
+  console.log('TCL: ----------------------------')
+	console.log('TCL: request -> data', data)
+	console.log('TCL: ----------------------------')
   return data.recipes || data.recipe;
 }
 
@@ -46,7 +52,7 @@ export async function fetchData({ setError, query = '', setRecipes = null, recip
     if(res)
       setRecipes(res);
     else {
-      res = await request(query);
+      res = await request({ query });
       if(typeof res === 'string')
         setError(res)
       else {
@@ -59,7 +65,7 @@ export async function fetchData({ setError, query = '', setRecipes = null, recip
     if(res)
       setRecipe(res);
     else {
-      res = await request(recipeId);
+      res = await request({ recipeId });
       if(typeof res === 'string')
         setError(res)
       else {

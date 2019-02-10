@@ -7,6 +7,13 @@ form.form-inline {
 main {
   min-height: 50vh;
 }
+main .spinner-border {
+  width: 5rem;
+  height: 5rem;
+}
+main .fas.fa-utensils {
+  margin-right: 0.7rem;
+}
 img.recipe-thumb {
   width: 150px;
   height: 150px;

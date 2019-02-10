@@ -2,11 +2,11 @@ import React from "react";
 import { fetchData, useRecipes } from './helpers'
 import logo from './food2fork-logo.png'
 
-export default function Header() {
-  const { setError, query, setQuery, setRecipes } = useRecipes();
+export default function Header({ history, initQuery }) {
+  const { query, setQuery } = useRecipes(initQuery);
   const doSearch = (e) => {
     e.preventDefault();
-    fetchData({ query, setRecipes, setError });
+    history.push(`/recipes/${query}`);
   }
   return (
     <header>
