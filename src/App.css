@@ -13,6 +13,7 @@ main .spinner-border {
 }
 main .fas.fa-utensils {
   margin-right: 0.7rem;
+  transform: rotate(45deg);
 }
 img.recipe-thumb {
   width: 150px;

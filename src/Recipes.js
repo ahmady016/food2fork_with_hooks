@@ -1,14 +1,23 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
 import { fetchData, useRecipes } from './helpers'
+
+let sort = "";
 
 export default function Recipes(props) {
 
   const { error, setError, query, recipes, setRecipes } = useRecipes(props.match.params.query);
 
+  const [sortProp, setSortProp] = useState("title");
+
   useEffect( () => {
     fetchData({ query, setRecipes, setError });
   }, []);
+
+  const doSort = (e) => {
+    sort = e.target.dataset.sort;
+    setSortProp((sortProp === sort)? "-"+sort : sort);
+  }
 
   if(!recipes.length)
     return (
@@ -23,13 +32,40 @@ export default function Recipes(props) {
   else
     return (
       <main className="recipes list-group">
-        {recipes.map(recipe => (
+        <div className="alert alert-primary mt-3 d-flex justify-content-between align-items-center" role="alert">
+          <span>
+            <strong>Found: </strong>
+            <strong>{recipes.length} </strong>
+            recipe(s)
+            from <strong>{[...recipes].unique('publisher').length} </strong>
+            publisher(s) ...
+          </span>
+          <form className="form-inline w-50">
+            <label className="my-1 mr-3" htmlFor="sort-by">Sort By:</label>
+            <i className={`mr-2 fas fa-sort-alpha-${sortProp.includes('-')? 'up' : 'down'}`}></i>
+            <button type="button"
+                id="title"
+                className={`btn btn-primary btn-sm mr-2 ${sortProp.includes('title')? 'active' : ''}`}
+                onClick={doSort}
+                data-sort="title">
+              title
+            </button>
+            <button type="button"
+                id="publisher"
+                className={`btn btn-primary btn-sm mr-2 ${sortProp.includes('publisher')? 'active' : ''}`}
+                onClick={doSort}
+                data-sort="publisher">
+              publisher
+            </button>
+          </form>
+        </div>
+        { [...recipes].orderBy(sortProp).map(recipe => (
           <li key={recipe.recipe_id} className="list-group-item list-group-item-action d-flex justify-content-start align-items-center">
             <img className="recipe-thumb" src={recipe.image_url} alt={recipe.title} />
             <div className="recipe-content">
               <h3><Link to={`/recipe/${recipe.recipe_id}`}>{recipe.title}</Link></h3>
               <p> <strong>Publisher: </strong>{recipe.publisher}</p>
-              <p> <strong>Rank: </strong>{Number(recipe.social_rank).toFixed(2)}</p>
+              <p> <strong>Social Rank: </strong>{Number(recipe.social_rank).toFixed(2)}</p>
             </div>
           </li>
         ))}

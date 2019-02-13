@@ -77,3 +77,23 @@ export async function fetchData({ setError, query = '', setRecipes = null, recip
   else
     throw new Error("must supply 2 params: [query, setRecipes] OR [recipeId, setRecipe]");
 }
+
+export function orderBy(prop) {
+  // if there is no prop and/or not array of objects
+  // just return simple ascending string sort
+  if (!prop)
+    return (a,b) => a-b;
+  // sort the objects by prop [ascending - descending]
+  let sortOrder = 1;
+  if (prop[0] === "-") {
+    sortOrder = -1;
+    prop = prop.substr(1);
+  }
+  return (a,b) => {
+    (sortOrder === 1)
+      // sort ascending if sortOrder = 1
+      ? a[prop].localeCompare(b[prop])
+      // sort descending if sortOrder = -1
+      : b[prop].localeCompare(a[prop]);
+  }
+}
