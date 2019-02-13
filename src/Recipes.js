@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
 import { fetchData, useRecipes } from './helpers'
 
-let sort = "";
+const sortProps = {
+  "title": "Title",
+  "publisher": "Publisher",
+  "social_rank": "Rank"
+}
 
 export default function Recipes(props) {
 
@@ -14,9 +18,8 @@ export default function Recipes(props) {
     fetchData({ query, setRecipes, setError });
   }, []);
 
-  const doSort = (e) => {
-    sort = e.target.dataset.sort;
-    setSortProp((sortProp === sort)? "-"+sort : sort);
+  const doSort = ({ target: { value }}) => {
+    setSortProp((sortProp === value)? "-"+value : value);
   }
 
   if(!recipes.length)
@@ -42,21 +45,16 @@ export default function Recipes(props) {
           </span>
           <form className="form-inline w-50">
             <label className="my-1 mr-3" htmlFor="sort-by">Sort By:</label>
-            <i className={`mr-2 fas fa-sort-alpha-${sortProp.includes('-')? 'up' : 'down'}`}></i>
-            <button type="button"
-                id="title"
-                className={`btn btn-primary btn-sm mr-2 ${sortProp.includes('title')? 'active' : ''}`}
-                onClick={doSort}
-                data-sort="title">
-              title
-            </button>
-            <button type="button"
-                id="publisher"
-                className={`btn btn-primary btn-sm mr-2 ${sortProp.includes('publisher')? 'active' : ''}`}
-                onClick={doSort}
-                data-sort="publisher">
-              publisher
-            </button>
+            <i className={`fas fa-sort-alpha-${sortProp.includes('-')? 'up' : 'down'}`}></i>
+            {Object.keys(sortProps).map( key => (
+              <button type="button"
+                  className={`btn btn-primary btn-sm mr-2 ${sortProp.includes(key)? 'active' : ''}`}
+                  id={key}
+                  value={key}
+                  onClick={doSort} >
+                {sortProps[key]}
+              </button>
+            ))}
           </form>
         </div>
         { [...recipes].orderBy(sortProp).map(recipe => (

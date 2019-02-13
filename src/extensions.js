@@ -315,12 +315,18 @@ export default () => {
         sortOrder = -1;
         prop = prop.substr(1);
     }
-    (sortOrder === 1)
+    if(this.every(item => typeof item[prop] === 'number'))
+      return (sortOrder === 1)
+        // sort ascending if sortOrder = 1
+        ? this.sort( (a,b) => a[prop] - b[prop] )
+        // sort descending if sortOrder = -1
+        : this.sort( (a,b) => b[prop] - a[prop] );
+
+    return (sortOrder === 1)
       // sort ascending if sortOrder = 1
       ? this.sort( (a,b) => a[prop].localeCompare(b[prop]) )
       // sort descending if sortOrder = -1
       : this.sort( (a,b) => b[prop].localeCompare(a[prop]) );
-    return this;
   }
   // title case a string
   String.prototype.toTitleCase = function() {

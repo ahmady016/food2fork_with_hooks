@@ -15,6 +15,11 @@ main .fas.fa-utensils {
   margin-right: 0.7rem;
   transform: rotate(45deg);
 }
+main .fas.fa-sort-alpha-up,
+main .fas.fa-sort-alpha-down {
+  margin-right: 1rem;
+  font-size: 1.4rem;
+}
 img.recipe-thumb {
   width: 150px;
   height: 150px;
