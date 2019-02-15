@@ -4,13 +4,13 @@ import { fetchData, useRecipes } from './helpers'
 import Loading from "./Loading";
 
 export default function Recipe(props) {
-
+  // get the recipes state
   const { error, setError, recipe, setRecipe } = useRecipes();
-
+  // only on first render fetch Recipe data [LS OR API]
   useEffect( () => {
     fetchData({ setError, recipeId: props.match.params.id, setRecipe });
   }, []);
-
+  // renderIngredients list
   const renderIngredients = (ingredients) => {
     if(!ingredients)
       return null;
@@ -21,11 +21,13 @@ export default function Recipe(props) {
       </li>
     ))
   }
-
-  if(error)
-    return <div className="alert alert-danger" role="alert">{error}</div>
+  // if there not recipe yet render Loading spinner
   if(!recipe)
     return <Loading />
+  // if there is an error render error message
+  if(error)
+    return <div className="alert alert-danger" role="alert">{error}</div>
+  // render recipe
   return (
     <main>
       <div className="card">
