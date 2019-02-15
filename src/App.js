@@ -5,6 +5,7 @@ import shortid from 'shortid';
 import Header from './Header'
 import Recipes from './Recipes'
 import Recipe from './Recipe'
+import About from './About';
 import './app.css'
 
 // routes animation container
@@ -29,13 +30,14 @@ const INIT_QUERY = 'burger';
 function App({ location, history }) {
   return (
     <>
-      <Header history={history} initQuery={INIT_QUERY} />
+      <Header location={location} history={history} initQuery={INIT_QUERY} />
       <div className="container">
         <PoseGroup>
           <AnimatedRoutes key={shortid.generate()}>
             <Switch location={location}>
               <Route path="/recipes/:query" component={Recipes} />
               <Route path="/recipe/:id" component={Recipe} />
+              <Route path="/about" component={About} />
               <Redirect to={`/recipes/${INIT_QUERY}`} />
             </Switch>
           </AnimatedRoutes>

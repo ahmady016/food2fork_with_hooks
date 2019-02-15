@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import shortid from 'shortid'
 import { fetchData, useRecipes } from './helpers'
+import Loading from "./Loading";
 
 export default function Recipe(props) {
 
@@ -24,13 +25,7 @@ export default function Recipe(props) {
   if(error)
     return <div className="alert alert-danger" role="alert">{error}</div>
   if(!recipe)
-    return (
-      <main className="text-center">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </main>
-    );
+    return <Loading />
   return (
     <main>
       <div className="card">

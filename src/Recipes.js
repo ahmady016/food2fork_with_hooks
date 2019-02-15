@@ -26,16 +26,12 @@ export default function Recipes(props) {
     return (
       <main className="intro d-flex flex-column align-items-center justify-content-around">
         {error && <div className="alert alert-danger" role="alert">{error}</div>}
-        <h2>Food2Fork</h2>
-        <span>Food2Fork makes it easy to find great recipes.</span>
-        <span>Search by name or ingredients.</span>
-        <span>Join to save your favorites for later.</span>
       </main>
     )
   else
     return (
       <main>
-        <div className="alert text-light mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <div className="alert recipes-header text-light mt-3 d-flex justify-content-between align-items-center" role="alert">
           <span>
             <strong>Found: </strong>
             <strong>{recipes.length} </strong>

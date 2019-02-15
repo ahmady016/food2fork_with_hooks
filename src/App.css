@@ -10,7 +10,7 @@ form.form-inline {
 main {
   min-height: 50vh;
 }
-main .alert {
+main .alert.recipes-header {
   background-color: #1c2833;
 }
 main .list-group-item {
