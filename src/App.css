@@ -1,3 +1,6 @@
+body {
+  background-color: #eed8c0 !important;
+}
 img.app-logo {
   width: 200px;
 }
@@ -6,6 +9,12 @@ form.form-inline {
 }
 main {
   min-height: 50vh;
+}
+main .alert {
+  background-color: #1c2833;
+}
+main .list-group-item {
+  background-color: #ffecd8;
 }
 main .spinner-border {
   width: 5rem;

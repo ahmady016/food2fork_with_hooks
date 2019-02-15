@@ -31,15 +31,16 @@ export async function request({ query = '', recipeId = '' }) {
   const url = (query)
                 ? searchURL + query
                 : detailsURL + recipeId;
-  const { data } = await axios.get(url);
-  if (data.error)
-    return data.error;
-  if( (!data.recipes || !data.recipes.length) && !data.recipe)
-    return 'Resource Not found!';
-  console.log('TCL: ----------------------------')
-	console.log('TCL: request -> data', data)
-	console.log('TCL: ----------------------------')
-  return data.recipes || data.recipe;
+  try {
+    const { data } = await axios.get(url);
+    if (data.error)
+      return data.error;
+    if( (!data.recipes || !data.recipes.length) && !data.recipe)
+      return 'Resource Not found!';
+    return data.recipes || data.recipe;
+  } catch(error) {
+    return error.message;
+  }
 }
 
 export async function fetchData({ setError, query = '', setRecipes = null, recipeId = '', setRecipe = null }) {
