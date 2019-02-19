@@ -1,12 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { NavLink, Link } from 'react-router-dom'
-import { useRecipes } from './helpers'
 import logo from './food2fork-logo.png'
 
 export default function Header({ location, history, initQuery }) {
   // get the query and setQuery state and
   // give the quey the initial value from the location.pathname
-  const { query, setQuery } = useRecipes(location.pathname.split('/')[2] || initQuery);
+  const [ query, setQuery ] = useState(location.pathname.split('/')[2] || initQuery);
   // setQuery when location pathname changes
   useEffect(() => {
     setQuery(location.pathname.split('/')[2] || '');
